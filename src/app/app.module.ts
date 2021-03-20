@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DetallesComponent } from './clientes/detalles/detalles.component';
+import { LoginComponent } from './auth/login/login.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { DetallesComponent } from './clientes/detalles/detalles.component';
     FormComponent,
     PaginatorComponent,
     DetallesComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

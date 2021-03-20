@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Cliente } from '../cliente';
 import { ClienteService } from '../cliente.service';
+import { ModalService } from './modal.service';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-detalles',
@@ -12,22 +14,27 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class DetallesComponent implements OnInit {
 
-  cliente: Cliente;
+  @Input() cliente: Cliente;
   titulo: string = "Detalle del cliente";
   public imagenSeleccionada: File;
   public progreso: number = 0;
 
-  constructor(private clienteService : ClienteService, private activatedRoute : ActivatedRoute) { }
+  constructor(
+    private clienteService : ClienteService, 
+    private activatedRoute : ActivatedRoute, 
+    public modalService : ModalService,
+    public authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(param => {
-      let id:number = +param.get('id');
-      if(id){
-        this.clienteService.getCliente(id).subscribe(cliente => {
-          this.cliente = cliente;
-        });
-      }
-    });
+    // this.activatedRoute.paramMap.subscribe(param => {
+    //   let id:number = +param.get('id');
+    //   if(id){
+    //     this.clienteService.getCliente(id).subscribe(cliente => {
+    //       this.cliente = cliente;
+    //     });
+    //   }
+    // });
   }
 
   public seleccionarFoto(event){
@@ -52,10 +59,15 @@ export class DetallesComponent implements OnInit {
           }else if (event.type === HttpEventType.Response ){
             let response: any = event.body
             this.cliente = response.cliente as Cliente;
+            this.modalService.notificarUpload.emit(this.cliente);
             Swal.fire('La foto se ha subio correctamente!', response.mensaje, 'success');
           }
         });
     }
   }
-
+  cerarModal(){
+    this.imagenSeleccionada = null;
+    this.progreso = 0;
+    this.modalService.cerrarModal();
+  }
 }
