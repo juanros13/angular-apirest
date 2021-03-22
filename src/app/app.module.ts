@@ -12,14 +12,15 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { PaginatorComponent } from './shared/paginator/paginator.component';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DetallesComponent } from './clientes/detalles/detalles.component';
 import { LoginComponent } from './auth/login/login.component';
-
+import { TokenInterceptor } from './auth/interceptors/token.interceptor';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,10 +45,13 @@ import { LoginComponent } from './auth/login/login.component';
   ],
   providers: [
     ClienteService,
-    {provide: LOCALE_ID, useValue: 'es-MX' },
+    { provide: LOCALE_ID, useValue: 'es-MX' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     MatDatepickerModule,
-    MatMomentDateModule  
+    MatMomentDateModule,
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }
