@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   login(usuario: Usuario):Observable<any>{
-    const urlEndPoint = 'http://localhost:8080/oauth/token';
+    const urlEndPoint = 'http://nucleo.pro:8082/oauth/token';
     const credenciales = btoa('angularapp' + ':' + '12345');
     const httpHeaders = new HttpHeaders({
         'Content-Type':'application/x-www-form-urlencoded',

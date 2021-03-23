@@ -12,7 +12,7 @@ import { Region } from './region';
   providedIn: 'root',
 })
 export class ClienteService {
-  private urlEndPoint: string = 'http://localhost:8080/api/clientes';
+  private urlEndPoint: string = 'http://nucleo.pro:8082/api/clientes';
 
 
 

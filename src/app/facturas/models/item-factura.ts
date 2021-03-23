@@ -4,7 +4,7 @@ export class ItemFactura {
     cantidad: number = 1;
     importe: number;
 
-    public calcularImporter(): number{
+    public calcularImporte(): number{
         return this.cantidad * this.producto.precio;
     }
 }

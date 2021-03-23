@@ -50,6 +50,9 @@
                                 <img *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{ cliente.foto }}" alt="{{ cliente.foto }}" class="img-thumbnail rounded" />
                             </div>
                         </div>
+                        <div class="row" *ngIf="authService.hasRole('ROLE_ADMIN')">
+                            <button type="button" name="button" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success">Crear factura</button>
+                        </div>
                         <div class="row">
                             <div *ngIf="cliente.facturas.length==0" class="alert alert-info my-4">
                                 No hay facturas asignada al cliente {{ cliente.nombre }} {{ cliente.apellido }}
@@ -61,6 +64,8 @@
                                         <th>Descripcion</th>
                                         <th>Fecha</th>
                                         <th>Total</th>
+                                        <th>Detalle</th>
+                                        <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,6 +74,16 @@
                                         <td>{{ factura.descripcion }}</td>
                                         <td>{{ factura.createdAt }}</td>
                                         <td>{{ factura.total }}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" type="button" [routerLink]="['/factura', factura.id]">
+                                                Ver
+                                            </button>
+                                        </td>
+                                        <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+                                            <button class="btn btn-danger btn-sm" type="button" (click)="delete(factura)">
+                                                Eliminar
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
